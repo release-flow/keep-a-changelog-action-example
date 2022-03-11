@@ -34,7 +34,9 @@ jobs:
       uses: release-flow/keep-a-changelog-release@main
       with:
         release-type: ${{ github.event.inputs.release-type }}
-        changelog: does-not-exist
     - run: |
         echo "New release version: ${{ steps.update-changelog.outputs.new-release-version }}"
         cat CHANGELOG.md
+    - run: |
+        gh api repos/$GITHUB_REPOSITORY/labels
+        gh api repos/$GITHUB_REPOSITORY/labels --jq '.[] | select(.name=="autorelease")'
