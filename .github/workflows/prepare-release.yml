@@ -31,7 +31,7 @@ jobs:
         cache: 'npm'
     - name: Update changelog
       id: update-changelog
-      uses: '@release-flow/keep-a-changelog-release'
+      uses: '@release-flow/keep-a-changelog-release@main'
       with:
         release-type: ${{ github.event.inputs.release-type }}
     - run: |
