@@ -18,7 +18,7 @@ on:
         description: 'Pre-release identifier (only for pre-release builds)'
         required: false
 
-name: 'Prepare release'
+name: 'Prepare release PR'
 
 jobs:
   changelog:
@@ -34,6 +34,7 @@ jobs:
       uses: release-flow/keep-a-changelog-release@main
       with:
         release-type: ${{ github.event.inputs.release-type }}
+        changelog: does-not-exist
     - run: |
         echo "New release version: ${{ steps.update-changelog.outputs.new-release-version }}"
         cat CHANGELOG.md
