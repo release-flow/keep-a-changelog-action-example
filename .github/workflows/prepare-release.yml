@@ -20,7 +20,7 @@ on:
 name: 'Prepare release'
 
 jobs:
-  printInputs:
+  changelog:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -28,7 +28,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: 16.x
-        cache: 'npm'
     - name: Update changelog
       id: update-changelog
       uses: richtea/keep-a-changelog-release@main
