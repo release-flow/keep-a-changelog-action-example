@@ -38,10 +38,9 @@ jobs:
         echo "New release version: ${{ steps.update-changelog.outputs.new-release-version }}"
         cat CHANGELOG.md
     - run: |
-        gh api repos/$GITHUB_REPOSITORY/labels
         LABEL=$(gh api repos/$GITHUB_REPOSITORY/labels --jq '.[] | select(.name=="autorelease")')
         echo "LABEL=$LABEL"
-        if [[ -z LABEL ]]; then
+        if [[ -z "$LABEL" ]]; then
           echo "Create label"
         fi
       env:
