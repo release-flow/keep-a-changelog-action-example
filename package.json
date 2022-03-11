@@ -1,0 +1,15 @@
+{
+  "name": "keep-a-changelog-release-example",
+  "version": "0.0.1",
+  "description": "Example repo that uses the @release-flow/keep-a-changelog-release action",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "changelog",
+    "keep-a-changelog"
+  ],
+  "author": "Release Flow <info@releaseflow.io>",
+  "license": "MIT"
+}
