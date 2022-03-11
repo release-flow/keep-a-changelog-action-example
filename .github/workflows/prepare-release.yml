@@ -40,3 +40,5 @@ jobs:
     - run: |
         gh api repos/$GITHUB_REPOSITORY/labels
         gh api repos/$GITHUB_REPOSITORY/labels --jq '.[] | select(.name=="autorelease")'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
