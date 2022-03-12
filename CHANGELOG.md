@@ -9,12 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Playing with releases
+- Playing with releases
+
+- Added markdownlint configuration
 
 ## [0.0.1] - 2022-03-11
 
 ### Added
 
-* Initial version
+- Initial version
 
 [0.0.1]: https://github.com/release-flow/keep-a-changelog-release-example/releases/tag/v0.0.1
