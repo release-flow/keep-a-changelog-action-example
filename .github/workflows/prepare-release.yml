@@ -31,13 +31,9 @@ jobs:
 
     - name: Update changelog
       id: update-changelog
-      uses: release-flow/keep-a-changelog-release@main
+      uses: release-flow/keep-a-changelog-actions@main
       with:
         release-type: ${{ github.event.inputs.release-type }}
-
-    - run: |
-        echo "New release version: ${{ steps.update-changelog.outputs.new-release-version }}"
-        cat CHANGELOG.md
 
     - name: 'Ensure autorelease label exists'
       run: |
@@ -61,7 +57,7 @@ jobs:
         body: >
           **This PR was created automatically by the releasebot**
 
-          **Approving this PR will trigger the actual release**
+          **NOTE: Approving this PR will trigger a workflow that performs the actual release**
 
           The changes in this PR prepare for release ${{ steps.update-changelog.outputs.new-release-version }}. They
           include:
