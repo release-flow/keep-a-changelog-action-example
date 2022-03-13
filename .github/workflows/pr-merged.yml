@@ -7,12 +7,7 @@ on:
 jobs:
   merge:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'enhancement')
     steps:
-    # This can error if there are braces in the JSON !!!
     - run: |
-        echo "${{ toJSON(github.event) }}"
-    - run: |
-        echo "${{ toJSON(github.event.pull_request) }}"
-      if: contains(github.event.pull_request.labels.*.name, 'enhancement')
-      name: Runs if enhancement label is present
+        echo "enhancement PR was merged"
