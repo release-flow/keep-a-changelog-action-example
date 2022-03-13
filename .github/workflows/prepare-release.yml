@@ -54,15 +54,15 @@ jobs:
         committer: 'releasebot <noreply@github.com>'
         branch: 'autorelease/${{ steps.update-changelog.outputs.release-version }}'
         title: '[autorelease] Prepare release ${{ steps.update-changelog.outputs.release-version }}'
-        body: >
-          **This PR was created automatically by the releasebot**
+        body: |
+          **This PR was created automatically by the releasebot on behalf of @${{ env.GITHUB_ACTOR }}**
 
           **NOTE: Approving this PR will trigger a workflow that performs the actual release**
 
           The changes in this PR prepare for release ${{ steps.update-changelog.outputs.release-version }}. They
           include:
 
-          - Update the changelog for the latest release
+          ${{ steps.update-changelog.outputs.release-notes }}
         labels: autorelease
 
     - name: Create Draft Release
@@ -75,4 +75,3 @@ jobs:
         release_name: 'Release ${{ steps.update-changelog.outputs.release-version }}'
         draft: true
         body: ${{ steps.update-changelog.outputs.release-notes }}
-        comitish: main
