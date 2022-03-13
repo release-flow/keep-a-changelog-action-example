@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
+    # This can error if there are braces in the JSON !!!
     - run: |
         echo "${{ toJSON(github.event) }}"
     - run: |
