@@ -27,7 +27,7 @@ jobs:
 
     - name: Get release notes
       id: get-release-notes
-      uses: release-flow/keep-a-changelog-action/get-release-notes@main
+      uses: release-flow/keep-a-changelog-action/get-release-notes@v1
       with:
         release-version: ${{ steps.get-release-version.outputs.release-version}}
 
