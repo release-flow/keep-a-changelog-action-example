@@ -31,7 +31,7 @@ jobs:
 
     - name: Update changelog
       id: update-changelog
-      uses: release-flow/keep-a-changelog-actions@main
+      uses: release-flow/keep-a-changelog-action/prepare-release@main
       with:
         release-type: ${{ github.event.inputs.release-type }}
 
@@ -65,13 +65,13 @@ jobs:
           ${{ steps.update-changelog.outputs.release-notes }}
         labels: autorelease
 
-    - name: Create Draft Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: 'v${{ steps.update-changelog.outputs.release-version }}'
-        release_name: 'Release ${{ steps.update-changelog.outputs.release-version }}'
-        draft: true
-        body: ${{ steps.update-changelog.outputs.release-notes }}
+    # - name: Create Draft Release
+    #   id: create_release
+    #   uses: actions/create-release@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: 'v${{ steps.update-changelog.outputs.release-version }}'
+    #     release_name: 'Release ${{ steps.update-changelog.outputs.release-version }}'
+    #     draft: true
+    #     body: ${{ steps.update-changelog.outputs.release-notes }}

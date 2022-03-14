@@ -7,7 +7,35 @@ on:
 jobs:
   merge:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'enhancement')
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'autorelease')
     steps:
-    - run: |
-        echo "enhancement PR was merged"
+    - uses: actions/checkout@v3
+
+    - name: Get release version
+      id: get-release-version
+      run: |
+        echo "${{ github.event.pull_request.head.ref }}"
+        # Head branch should be named autorelease/<version>
+        VERSION=$(echo "${{ github.event.pull_request.head.ref }}" | awk -F/ '{print $2}')
+        echo "VERSION=$VERSION"
+        echo "::set-output name=release-version::$VERSION"
+
+    - name: Get release notes
+      id: get-release-notes
+      uses: release-flow/keep-a-changelog-action/get-release-notes@main
+      with:
+        release-version: ${{ steps.get-release-version.outputs.release-version}}
+
+    - name: Display release notes
+      run: |
+        echo "${{ steps.get-release-notes.outputs.release-notes }}"
+    - name: Create Draft Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: 'v${{ steps.get-release-version.outputs.release-version }}'
+        release_name: 'Release ${{ steps.get-release-version.outputs.release-version }}'
+        draft: true
+        body: ${{ steps.get-release-version.outputs.release-notes }}
