@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Added
+
+- Update workflows so that the GH release is created when the PR is merged
+
 ## [0.0.2] - 2022-03-12
 
 ### Added
