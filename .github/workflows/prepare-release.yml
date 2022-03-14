@@ -18,7 +18,7 @@ on:
         description: 'Pre-release identifier (only for pre-release builds)'
         required: false
 
-name: 'Prepare release PR'
+name: '[autorelease] Prepare release PR'
 
 jobs:
   changelog:
