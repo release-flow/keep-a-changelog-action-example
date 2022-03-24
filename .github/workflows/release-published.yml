@@ -37,15 +37,15 @@ jobs:
 
         echo "::set-output name=major-ref::v$MAJOR"
         if [[ "$SPECIAL" ]]; then pre=true; else pre=false; fi
-        echo "::set-output name=is-prerelease::${{ toJSON($pre) }}"
+        echo "::set-output name=is-prerelease::${{ toJSON(env.pre) }}"
 
     - name: Print if prerelease
       if: fromJSON(steps.get-release-version.outputs.is-prerelease)
       run: |
-        echo "It's a pre-release version"
+        echo "It's a pre-release version, ref = ${{ steps.get-release-version.outputs.major-ref }}"
 
     - name: Print if prerelease
       if: ! fromJSON(steps.get-release-version.outputs.is-prerelease)
       run: |
-        echo "It's **NOT** a pre-release version"
+        echo "It's **NOT** a pre-release version, ref = ${{ steps.get-release-version.outputs.major-ref }}"
 
