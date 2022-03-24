@@ -34,8 +34,8 @@ jobs:
         fi
 
         echo "::set-output name=major-ref::v$MAJOR"
-        if [[ "$SPECIAL" ]]; then echo "pre=true" >> GITHUB_ENV; else echo "pre=false" >> GITHUB_ENV; fi
-        echo "::set-output name=is-prerelease::${{ toJSON(env.pre) }}"
+        if [[ "$SPECIAL" ]]; then pre=true; else pre=false; fi
+        echo "::set-output name=is-prerelease::$pre"
 
     - name: Print if prerelease
       if: fromJSON(steps.get-release-version.outputs.is-prerelease)
