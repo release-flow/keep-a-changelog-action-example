@@ -15,8 +15,6 @@ jobs:
   update-ref:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-
     - name: Get release version
       id: get-release-version
       run: |
@@ -42,10 +40,10 @@ jobs:
     - name: Print if prerelease
       if: fromJSON(steps.get-release-version.outputs.is-prerelease)
       run: |
-        echo "It's a pre-release version, ref = ${{ steps.get-release-version.outputs.major-ref }}"
+        echo "It's a pre-release version (${{ steps.get-release-version.outputs.is-prerelease }}), ref = ${{ steps.get-release-version.outputs.major-ref }}"
 
     - name: Print if not prerelease
       if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
       run: |
-        echo "It's **NOT** a pre-release version, ref = ${{ steps.get-release-version.outputs.major-ref }}"
+        echo "It's **NOT** a pre-release version (${{ steps.get-release-version.outputs.is-prerelease }}), ref = ${{ steps.get-release-version.outputs.major-ref }}"
 
