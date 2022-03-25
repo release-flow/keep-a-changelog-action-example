@@ -67,4 +67,6 @@ jobs:
         message: "Latest ${{ steps.get-release-version.outputs.major-ref }} release"
         force_push_tag: true
         commit_sha: ${{ steps.get-release-version.outputs.semver-tag }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
