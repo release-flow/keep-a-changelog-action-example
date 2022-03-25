@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- Switch back to using tags for the major version ref, as this aligns with the recommended practice
+
 ### Fixed
 
 - Fix newlines in PR template
