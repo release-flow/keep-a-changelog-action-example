@@ -47,6 +47,6 @@ jobs:
     - name: Update major release ref
       if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
       run: |
-        git push origin HEAD:${{ steps.get-release-version.outputs.major-ref }}
+        git push origin ${{ github.event.release.tag_name }}:${{ steps.get-release-version.outputs.major-ref }}
         echo "::notice::Updated ref ${{ steps.get-release-version.outputs.major-ref }}"
 
