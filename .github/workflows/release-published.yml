@@ -56,9 +56,9 @@ jobs:
         git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
         MAJOR_REF="${{ steps.get-release-version.outputs.major-ref }}"
-        git tag -fa $MAJOR_REF -m "Update $MAJOR_REF tag" $VERSION
-        git push origin $MAJOR_REF --force
-        echo "::notice::Updated ref $MAJOR_REF"
+        git tag -fa ${{ steps.get-release-version.outputs.major-ref }} -m "Update ${{ steps.get-release-version.outputs.major-ref }} tag"
+        git push origin ${{ steps.get-release-version.outputs.major-ref }} --force
+        echo "::notice::Updated ref ${{ steps.get-release-version.outputs.major-ref }}"
 
     # - name: Tag release
     #   if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
