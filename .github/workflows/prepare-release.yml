@@ -48,6 +48,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Pull Request
+      id: create-release-pr
       uses: peter-evans/create-pull-request@v3
       with:
         commit-message: 'chore: Update changelog for release ${{ steps.update-changelog.outputs.release-version }}'
@@ -59,7 +60,7 @@ jobs:
         body: |
           **This PR was created automatically by the releasebot**
 
-          **NOTE: Approving this PR will trigger a workflow that generates a draft release. You need to publish this release when you are happy with it.**
+          :warning: **Approving this PR will trigger a workflow that generates a draft release. You need to publish this release when you are happy with it.**
 
           The changes in this PR prepare for release ${{ steps.update-changelog.outputs.release-version }}. The generated release notes will be:
           
@@ -67,3 +68,9 @@ jobs:
 
           ${{ steps.update-changelog.outputs.release-notes }}
         labels: autorelease
+
+    - name: Output summary
+      run: |
+        echo "::notice:: Created a release PR, please merge it to continue with the release process: ${{
+        steps.create-release-pr.outputs.pull-request-url }}"
+  
