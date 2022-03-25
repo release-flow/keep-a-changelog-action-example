@@ -47,26 +47,27 @@ jobs:
       run: |
         echo "::notice::Pre-release version detected, not moving ref  ${{ steps.get-release-version.outputs.major-ref }}"
 
-    # - name: Calculate major release ref
-    #   if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
-    #   run: |
-    #     VERSION="${{ github.event.release.tag_name }}"
-    #     if [[ ! $VERSION ]]; then
-    #       VERSION="${{ github.event.inputs.release-version }}"
-    #     fi
-    #     MAJOR_REF="${{ steps.get-release-version.outputs.major-ref }}"
-    #     git tag -fa $MAJOR_REF -m "Update $MAJOR_REF tag" $VERSION
-    #     git push origin $MAJOR_REF --force
-    #     echo "::notice::Updated ref $MAJOR_REF"
-
-    - name: Tag release
+    - name: Update release tag
       if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
-      uses: rickstaa/action-create-tag@v1
-      with:
-        tag: ${{ steps.get-release-version.outputs.major-ref }}
-        message: "Latest ${{ steps.get-release-version.outputs.major-ref }} release"
-        force_push_tag: true
-        commit_sha: ${{ steps.get-release-version.outputs.semver-tag }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        VERSION="${{ steps.get-release-version.outputs.semver-tag }}"
+        
+        git config user.name "${GITHUB_ACTOR}"
+        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+
+        MAJOR_REF="${{ steps.get-release-version.outputs.major-ref }}"
+        git tag -fa $MAJOR_REF -m "Update $MAJOR_REF tag" $VERSION
+        git push origin $MAJOR_REF --force
+        echo "::notice::Updated ref $MAJOR_REF"
+
+    # - name: Tag release
+    #   if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
+    #   uses: rickstaa/action-create-tag@v1
+    #   with:
+    #     tag: ${{ steps.get-release-version.outputs.major-ref }}
+    #     message: "Latest ${{ steps.get-release-version.outputs.major-ref }} release"
+    #     force_push_tag: true
+    #     commit_sha: ${{ steps.get-release-version.outputs.semver-tag }}
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
