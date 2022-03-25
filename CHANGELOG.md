@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Added
+
+- Automatically bump the major ref (e.g. `v1`) when a release is published
+
 ## [0.1.0] - 2022-03-14
 
 ### Fixed
