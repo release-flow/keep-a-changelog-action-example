@@ -53,6 +53,6 @@ jobs:
         if [[ ! $VERSION ]]; then
           VERSION="${{ github.event.inputs.release-version }}"
         fi
-        git push origin $VERSION:refs/tags/${{ steps.get-release-version.outputs.major-ref }}
+        git push origin $VERSION:refs/heads/${{ steps.get-release-version.outputs.major-ref }}
         echo "::notice::Updated ref ${{ steps.get-release-version.outputs.major-ref }}"
 
