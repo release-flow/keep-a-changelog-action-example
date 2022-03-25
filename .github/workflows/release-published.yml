@@ -37,6 +37,7 @@ jobs:
           echo "::error::Version '$VERSION' is not in a valid format" && exit 1
         fi
 
+        echo "::set-output name=semver-tag::$VERSION"
         echo "::set-output name=major-ref::v$MAJOR"
         if [[ "$PRERELEASE" ]]; then pre=true; else pre=false; fi
         echo "::set-output name=is-prerelease::$pre"
@@ -46,15 +47,24 @@ jobs:
       run: |
         echo "::notice::Pre-release version detected, not moving ref  ${{ steps.get-release-version.outputs.major-ref }}"
 
-    - name: Update major release ref
+    # - name: Calculate major release ref
+    #   if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
+    #   run: |
+    #     VERSION="${{ github.event.release.tag_name }}"
+    #     if [[ ! $VERSION ]]; then
+    #       VERSION="${{ github.event.inputs.release-version }}"
+    #     fi
+    #     MAJOR_REF="${{ steps.get-release-version.outputs.major-ref }}"
+    #     git tag -fa $MAJOR_REF -m "Update $MAJOR_REF tag" $VERSION
+    #     git push origin $MAJOR_REF --force
+    #     echo "::notice::Updated ref $MAJOR_REF"
+
+    - name: Tag release
       if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
-      run: |
-        VERSION="${{ github.event.release.tag_name }}"
-        if [[ ! $VERSION ]]; then
-          VERSION="${{ github.event.inputs.release-version }}"
-        fi
-        MAJOR_REF="${{ steps.get-release-version.outputs.major-ref }}"
-        git tag -fa $MAJOR_REF -m "Update $MAJOR_REF tag" $VERSION
-        git push origin $MAJOR_REF --force
-        echo "::notice::Updated ref $MAJOR_REF"
+      uses: rickstaa/action-create-tag@v1
+      with:
+        tag: ${{ steps.get-release-version.outputs.major-ref }}
+        message: "Latest ${{ steps.get-release-version.outputs.major-ref }} release"
+        force_push_tag: true
+        commit_sha: ${{ steps.get-release-version.outputs.semver-tag }}
 
