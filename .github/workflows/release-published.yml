@@ -56,7 +56,7 @@ jobs:
         git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
         MAJOR_REF="${{ steps.get-release-version.outputs.major-ref }}"
-        git tag -fa ${{ steps.get-release-version.outputs.major-ref }} -m "Update ${{ steps.get-release-version.outputs.major-ref }} tag" ${{ steps.get-release-version.outputs.semver-tag }}
+        git tag -fa ${{ steps.get-release-version.outputs.major-ref }} -m "Update ${{ steps.get-release-version.outputs.major-ref }} tag"
         git push origin ${{ steps.get-release-version.outputs.major-ref }} --force
         echo "::notice::Updated ref ${{ steps.get-release-version.outputs.major-ref }}"
 
