@@ -15,6 +15,8 @@ jobs:
   update-ref:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+
     - name: Get release version
       id: get-release-version
       run: |
@@ -28,22 +30,23 @@ jobs:
           MAJOR="${BASH_REMATCH[1]}"
           MINOR="${BASH_REMATCH[2]}"
           PATCH="${BASH_REMATCH[3]}"
-          SPECIAL="${BASH_REMATCH[4]}"
+          PRERELEASE="${BASH_REMATCH[4]}"
         else
           echo "::error::Version '$VERSION' is not in a valid format" && exit 1
         fi
 
         echo "::set-output name=major-ref::v$MAJOR"
-        if [[ "$SPECIAL" ]]; then pre=true; else pre=false; fi
+        if [[ "$PRERELEASE" ]]; then pre=true; else pre=false; fi
         echo "::set-output name=is-prerelease::$pre"
 
-    - name: Print if prerelease
+    - name: Prerelease
       if: fromJSON(steps.get-release-version.outputs.is-prerelease)
       run: |
-        echo "It's a pre-release version (${{ steps.get-release-version.outputs.is-prerelease }}), ref = ${{ steps.get-release-version.outputs.major-ref }}"
+        echo "::notice::Pre-release version detected, not moving ref  ${{ steps.get-release-version.outputs.major-ref }}"
 
-    - name: Print if not prerelease
+    - name: Update major release ref
       if: ${{ ! fromJSON(steps.get-release-version.outputs.is-prerelease) }}
       run: |
-        echo "It's **NOT** a pre-release version (${{ steps.get-release-version.outputs.is-prerelease }}), ref = ${{ steps.get-release-version.outputs.major-ref }}"
+        git push origin HEAD:${{ steps.get-release-version.outputs.major-ref }}
+        echo "::notice::Updated ref ${{ steps.get-release-version.outputs.major-ref }}"
 
