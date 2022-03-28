@@ -48,6 +48,5 @@ jobs:
 
     - name: Display Instructions
       run: |
-        echo "::notice title=Draft Release Prepared::A draft release has been prepared for you to approve: ${{
-        steps.create_release.outputs.html_url }}"
+        echo "::notice title=Draft Release Prepared::A draft release has been prepared for you to approve: ${{ steps.create_release.outputs.html_url }}"
   
